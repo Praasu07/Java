@@ -11,6 +11,8 @@ public class RelationalOperator {
 		int num1= sc.nextInt();
 		System.out.println("Enter The Second Value: ");
 		int num2= sc.nextInt();
+		System.out.println("Enter the Third Value");
+		int num3= sc.nextInt();
 		//performing equals to operation
 		System.out.println("num1==num2 :"  +(num1==num2));
 		//performing is not equal to operation
