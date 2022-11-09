@@ -1,0 +1,191 @@
+mysql> use empdb;
+Database changed
+mysql> create table emp(
+    -> id int not null auto_increment,
+    -> name varchar(20) not null,
+    -> occupation varchar(20) not null,
+    -> age int not null,
+    -> primary key(id)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+mysql> insert into emp(id,name,occupation,age)values(1,'prashant','Student',22);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(2,'prashant','Student',22);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp;
++----+----------+------------+-----+
+| id | name     | occupation | age |
++----+----------+------------+-----+
+|  1 | prashant | Student    |  22 |
+|  2 | prashant | Student    |  22 |
++----+----------+------------+-----+
+2 rows in set (0.00 sec)
+
+mysql> update emp set name='Shivangi',occupation='Teacher',age=22 where id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+----------+------------+-----+
+| id | name     | occupation | age |
++----+----------+------------+-----+
+|  1 | prashant | Student    |  22 |
+|  2 | Shivangi | Teacher    |  22 |
++----+----------+------------+-----+
+2 rows in set (0.00 sec)
+
+mysql> alter table emp add address varchar(20) not null;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
+| address    | varchar(20) | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from emp;
++----+----------+------------+-----+---------+
+| id | name     | occupation | age | address |
++----+----------+------------+-----+---------+
+|  1 | prashant | Student    |  22 |         |
+|  2 | Shivangi | Teacher    |  22 |         |
++----+----------+------------+-----+---------+
+2 rows in set (0.00 sec)
+
+mysql> update emp set address='Gorakhpur' where id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+----------+------------+-----+-----------+
+| id | name     | occupation | age | address   |
++----+----------+------------+-----+-----------+
+|  1 | prashant | Student    |  22 |           |
+|  2 | Shivangi | Teacher    |  22 | Gorakhpur |
++----+----------+------------+-----+-----------+
+2 rows in set (0.00 sec)
+
+mysql> update emo set address='Gorakhpur' where id=1;
+ERROR 1146 (42S02): Table 'empdb.emo' doesn't exist
+mysql> update emp set address='Gorakhpur' where id=1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+----------+------------+-----+-----------+
+| id | name     | occupation | age | address   |
++----+----------+------------+-----+-----------+
+|  1 | prashant | Student    |  22 | Gorakhpur |
+|  2 | Shivangi | Teacher    |  22 | Gorakhpur |
++----+----------+------------+-----+-----------+
+2 rows in set (0.00 sec)
+
+mysql> alter table emp add dept varchar(10) not null after occupation,add phoneno int not null after age;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp;
++----+----------+------------+------+-----+---------+-----------+
+| id | name     | occupation | dept | age | phoneno | address   |
++----+----------+------------+------+-----+---------+-----------+
+|  1 | prashant | Student    |      |  22 |       0 | Gorakhpur |
+|  2 | Shivangi | Teacher    |      |  22 |       0 | Gorakhpur |
++----+----------+------------+------+-----+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> update emp set dept='It',phoneno=7272087246 where id=1;
+ERROR 1264 (22003): Out of range value for column 'phoneno' at row 1
+mysql> update emp set dept='IT',phoneno=234567890 where id=1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update emp set dept='IT',phoneno=123456789 where id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++----+----------+------------+------+-----+-----------+-----------+
+| id | name     | occupation | dept | age | phoneno   | address   |
++----+----------+------------+------+-----+-----------+-----------+
+|  1 | prashant | Student    | IT   |  22 | 234567890 | Gorakhpur |
+|  2 | Shivangi | Teacher    | IT   |  22 | 123456789 | Gorakhpur |
++----+----------+------------+------+-----+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> alter table emp modify address varchar(40);
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| dept       | varchar(10) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
+| phoneno    | int         | NO   |     | NULL    |                |
+| address    | varchar(40) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table emp drop column phoneno;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | NO   |     | NULL    |                |
+| occupation | varchar(20) | NO   |     | NULL    |                |
+| dept       | varchar(10) | NO   |     | NULL    |                |
+| age        | int         | NO   |     | NULL    |                |
+| address    | varchar(40) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into emp values(3,'MSD','Cricketer','Sport',37,'Ranchi');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from emp;
++----+----------+------------+-------+-----+-----------+
+| id | name     | occupation | dept  | age | address   |
++----+----------+------------+-------+-----+-----------+
+|  1 | prashant | Student    | IT    |  22 | Gorakhpur |
+|  2 | Shivangi | Teacher    | IT    |  22 | Gorakhpur |
+|  3 | MSD      | Cricketer  | Sport |  37 | Ranchi    |
++----+----------+------------+-------+-----+-----------+
+3 rows in set (0.00 sec)
+
+mysql> drop table emp;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delete from emp where id=3;
+ERROR 1146 (42S02): Table 'empdb.emp' doesn't exist
+mysql> delete from emp where id=3;
+ERROR 1146 (42S02): Table 'empdb.emp' doesn't exist
+mysql>  (0.05 sec) (0.05 sec)
