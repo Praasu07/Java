@@ -1,0 +1,198 @@
+😎PRASHANT KUMAR SRIVASTAV
+mysql> create table cricketers(
+    -> c_id int not null,
+    -> c_name varchar(20) not null,
+    -> team_name varchar(20) not null,
+    -> primary key(c_id));
+ERROR 1046 (3D000): No database selected
+mysql> create database Cricketersdb;
+Query OK, 1 row affected (0.10 sec)
+
+mysql> use cricketersdb;
+Database changed
+mysql>  create table cricketers(
+    ->     -> c_id int not null,
+    ->     -> c_name varchar(20) not null,
+    ->     -> team_name varchar(20) not null,
+    ->     -> primary key(c_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> c_id int not null,
+    -> c_name varchar(20) not null,
+    -> team_name varch' at line 2
+mysql> create table cricketers(
+    -> c_id int not null,
+    -> c_name varchar(20) not null,
+    -> team_name varchar(20) not null,
+    -> primary key(c_id));
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> create table coaches(
+    -> co_id int not null,
+    -> co_name varchar(20) not null,
+    -> role varchar(20) not null,
+    -> primary key(co_id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc cricketers;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| c_id      | int         | NO   | PRI | NULL    |       |
+| c_name    | varchar(20) | NO   |     | NULL    |       |
+| team_name | varchar(20) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.07 sec)
+
+mysql> desc coaches;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| co_id   | int         | NO   | PRI | NULL    |       |
+| co_name | varchar(20) | NO   |     | NULL    |       |
+| role    | varchar(20) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from cricketers;
+Empty set (0.01 sec)
+
+mysql> insert into cricketers(id,name,team)values(1,'Dhoni','India');
+ERROR 1054 (42S22): Unknown column 'id' in 'field list'
+mysql> insert into cricketers(c_id,c_name,team_name)values(1,'Dhoni','India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into cricketers values(2,'Virat','India');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into cricketers values(3,'Buttler','England');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from cricketers;
++------+---------+-----------+
+| c_id | c_name  | team_name |
++------+---------+-----------+
+|    1 | Dhoni   | India     |
+|    2 | Virat   | India     |
+|    3 | Buttler | England   |
++------+---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into coaches(co_id,co_name,role)values(1,'Dravid','Batting');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into coaches values(2,'Hayden','Batting');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into coaches values(3,'Nehra','Bowling');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from coaches;
++-------+---------+---------+
+| co_id | co_name | role    |
++-------+---------+---------+
+|     1 | Dravid  | Batting |
+|     2 | Hayden  | Batting |
+|     3 | Nehra   | Bowling |
++-------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> insert into coaches values(4,'Pollard','Fielding');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from coaches
+    -> select * from coaches;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from coaches' at line 2
+mysql> select * from coaches;
++-------+---------+----------+
+| co_id | co_name | role     |
++-------+---------+----------+
+|     1 | Dravid  | Batting  |
+|     2 | Hayden  | Batting  |
+|     3 | Nehra   | Bowling  |
+|     4 | Pollard | Fielding |
++-------+---------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select coaches.co_name,coaches.role,crickters.c_name,crickters.team_name
+    -> from coaches
+    -> INNER JOIN cricketers
+    -> ON coaches.co_id=crickters.c_id;
+ERROR 1054 (42S22): Unknown column 'crickters.c_name' in 'field list'
+mysql> select coaches.co_name,coaches.role,cricketers.c_name,cricketers.team_name
+    -> from coaches
+    -> INNER JOIN cricketers
+    -> ON coaches.co_id=cricketers.c_id;
++---------+---------+---------+-----------+
+| co_name | role    | c_name  | team_name |
++---------+---------+---------+-----------+
+| Dravid  | Batting | Dhoni   | India     |
+| Hayden  | Batting | Virat   | India     |
+| Nehra   | Bowling | Buttler | England   |
++---------+---------+---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select coaches.co_name,cricketers.c_name
+    -> from coaches
+    -> LEFT JOIN cricketers
+    -> ON coaches.co_id=cricketers.c_id;
++---------+---------+
+| co_name | c_name  |
++---------+---------+
+| Dravid  | Dhoni   |
+| Hayden  | Virat   |
+| Nehra   | Buttler |
+| Pollard | NULL    |
++---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select coaches.role,cricketers.team_name
+    -> from coaches
+    -> RIGHT JOIN cricketers
+    -> ON coaches.co_id=cricketers.c_id;
++---------+-----------+
+| role    | team_name |
++---------+-----------+
+| Batting | India     |
+| Batting | India     |
+| Bowling | England   |
++---------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from coaches full join cricketers;
++-------+---------+----------+------+---------+-----------+
+| co_id | co_name | role     | c_id | c_name  | team_name |
++-------+---------+----------+------+---------+-----------+
+|     1 | Dravid  | Batting  |    3 | Buttler | England   |
+|     1 | Dravid  | Batting  |    2 | Virat   | India     |
+|     1 | Dravid  | Batting  |    1 | Dhoni   | India     |
+|     2 | Hayden  | Batting  |    3 | Buttler | England   |
+|     2 | Hayden  | Batting  |    2 | Virat   | India     |
+|     2 | Hayden  | Batting  |    1 | Dhoni   | India     |
+|     3 | Nehra   | Bowling  |    3 | Buttler | England   |
+|     3 | Nehra   | Bowling  |    2 | Virat   | India     |
+|     3 | Nehra   | Bowling  |    1 | Dhoni   | India     |
+|     4 | Pollard | Fielding |    3 | Buttler | England   |
+|     4 | Pollard | Fielding |    2 | Virat   | India     |
+|     4 | Pollard | Fielding |    1 | Dhoni   | India     |
++-------+---------+----------+------+---------+-----------+
+12 rows in set (0.00 sec)
+
+mysql> select * from coaches cross join cricketers;
++-------+---------+----------+------+---------+-----------+
+| co_id | co_name | role     | c_id | c_name  | team_name |
++-------+---------+----------+------+---------+-----------+
+|     1 | Dravid  | Batting  |    3 | Buttler | England   |
+|     1 | Dravid  | Batting  |    2 | Virat   | India     |
+|     1 | Dravid  | Batting  |    1 | Dhoni   | India     |
+|     2 | Hayden  | Batting  |    3 | Buttler | England   |
+|     2 | Hayden  | Batting  |    2 | Virat   | India     |
+|     2 | Hayden  | Batting  |    1 | Dhoni   | India     |
+|     3 | Nehra   | Bowling  |    3 | Buttler | England   |
+|     3 | Nehra   | Bowling  |    2 | Virat   | India     |
+|     3 | Nehra   | Bowling  |    1 | Dhoni   | India     |
+|     4 | Pollard | Fielding |    3 | Buttler | England   |
+|     4 | Pollard | Fielding |    2 | Virat   | India     |
+|     4 | Pollard | Fielding |    1 | Dhoni   | India     |
++-------+---------+----------+------+---------+-----------+
+12 rows in set (0.00 sec)
+
+mysql>
